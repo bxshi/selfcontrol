@@ -97,6 +97,9 @@
 // Calls the close method of our DomainListWindowController
 - (void)closeDomainList;
 
+// Post a twitter
+- (IBAction)shareOnTwitter:(id)sender;
+
 // Checks whether a network connection is available by checking the reachabilty
 // of google.com  This method may not be correct if the network configuration
 // was just changed a few seconds ago.

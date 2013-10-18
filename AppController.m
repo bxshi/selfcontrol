@@ -123,6 +123,24 @@ NSString* const kSelfControlErrorDomain = @"SelfControlErrorDomain";
   [submitButton_ setEnabled: (numMinutes > 0) && ([[defaults_ arrayForKey:@"HostBlacklist"] count] > 0)];
 }
 
+- (IBAction)shareOnTwitter:(id)sender
+{
+    NSDateFormatter *DateFormatter=[[NSDateFormatter alloc] init];
+    [DateFormatter setDateFormat:@"yyyy-MM-dd hh:mm:ss"];
+    NSString *dateTime = [DateFormatter stringFromDate:[NSDate date]];
+    
+    NSString *minues = [NSString stringWithFormat:@"%.0f", floor([blockDurationSlider_ intValue])];
+    
+    // Items to share
+    NSAttributedString *text = (NSAttributedString *)[NSString stringWithFormat:@"%@%@%@%@%@", @"Now it's ", dateTime, @" See you after ", minues, @" minutes! #SelfControl"];
+    NSArray * shareItems = [NSArray arrayWithObjects:text, nil];
+    
+    NSSharingService *service = [NSSharingService sharingServiceNamed:NSSharingServiceNamePostOnTwitter];
+    [service performWithItems:shareItems];
+    return;
+}
+
+
 - (IBAction)addBlock:(id)sender {
   [defaults_ synchronize];
   if(([[defaults_ objectForKey:@"BlockStartedDate"] timeIntervalSinceNow] < 0)) {
@@ -162,7 +180,13 @@ NSString* const kSelfControlErrorDomain = @"SelfControlErrorDomain";
     CFNetDiagnosticDiagnoseProblemInteractively(diagRef);
     return;
   }
-  
+    
+  NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+  if ([defaults boolForKey:@"SendTweetWithNewSession"]) {
+    [self shareOnTwitter: nil];
+  }
+    
+    
   [timerWindowController_ resetStrikes];
   
   [NSThread detachNewThreadSelector: @selector(installBlock) toTarget: self withObject: nil];
