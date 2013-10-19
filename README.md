@@ -1,6 +1,9 @@
 [SelfControl](http://selfcontrolapp.com)
 ===========
 
+**This fork adds tweet sending feature. You could send a tweet when you start your new session.**
+
+
 ABOUT
 -----
 Is email a distraction? SelfControl is an OS X application which blocks access to mail servers and websites for a predetermined period of time. It can not be undone by the app or by a restart--you must wait for the timer to run out.
